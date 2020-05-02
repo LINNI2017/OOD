@@ -9,4 +9,8 @@
 *.css
 *.js
 *.jar
-*.gradlew
+*gradlew
+*.exec
+*.idx
+*.MF
+*.bat
