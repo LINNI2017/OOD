@@ -2,3 +2,11 @@
 *.bin
 *.lock
 *.properties
+*.xml
+*.class
+*.html
+*.gif
+*.css
+*.js
+*.jar
+*.gradlew
