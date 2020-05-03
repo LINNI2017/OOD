@@ -12,6 +12,11 @@
 - Implement a command line parser and csv file processor
 - Apply with MVC Architecture
 
+### Email Automation
+- Create a command line email auto-generate application
+- Allow user to generate files via templates and csv files
+- Implement a command line parser and csv file processor
+
 ### Generic Validator
 - Build a generic validator
 	- support password, phone, number, free text, radio button, check box
