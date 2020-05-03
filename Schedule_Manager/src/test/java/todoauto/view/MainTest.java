@@ -3,7 +3,6 @@ package todoauto.view;
 import java.text.ParseException;
 import org.junit.Before;
 import org.junit.Test;
-import todoauto.controller.InvalidArgumentsException;
 
 public class MainTest {
   private String[] args;
@@ -27,7 +26,25 @@ public class MainTest {
   }
 
   @Test
-  public void main() throws ParseException, InvalidArgumentsException {
+  public void main() throws ParseException {
+    Main.main(args);
+  }
+
+  @Test
+  public void emptyMap() throws ParseException {
+    args = new String[1];
+    Main.main(args);
+  }
+
+  @Test
+  public void emptyMap2() throws ParseException {
+    args = new String[2];
+    Main.main(args);
+  }
+
+  @Test
+  public void nullMap() throws ParseException {
+    args = null;
     Main.main(args);
   }
 }

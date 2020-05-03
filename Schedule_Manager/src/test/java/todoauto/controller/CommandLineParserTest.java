@@ -43,14 +43,8 @@ public class CommandLineParserTest {
     assertEquals("CommandLineParser", clp.toString());
   }
 
-  @Test(expected = InvalidArgumentsException.class)
-  public void checkEmpty() throws InvalidArgumentsException {
-    args1 = new String[] {};
-    CommandLineParser.process(args1);
-  }
-
-  @Test(expected = InvalidArgumentsException.class)
-  public void checkNullOption() throws InvalidArgumentsException {
+  @Test
+  public void checkNullOption() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -65,8 +59,14 @@ public class CommandLineParserTest {
     CommandLineParser.process(args1);
   }
 
-  @Test(expected = InvalidArgumentsException.class)
-  public void checkNullValue() throws InvalidArgumentsException {
+  @Test
+  public void nullArg() {
+    args1 = new String[] {null, null, null};
+    CommandLineParser.process(args1);
+  }
+
+  @Test
+  public void checkNullValue() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -82,8 +82,8 @@ public class CommandLineParserTest {
     CommandLineParser.process(args1);
   }
 
-  @Test(expected = InvalidArgumentsException.class)
-  public void addMultiTODO() throws InvalidArgumentsException {
+  @Test
+  public void addMultiTODO() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -100,8 +100,8 @@ public class CommandLineParserTest {
     CommandLineParser.process(args1);
   }
 
-  @Test(expected = InvalidArgumentsException.class)
-  public void missingOption() throws InvalidArgumentsException {
+  @Test
+  public void missingOption() {
     args1 = new String[] {
         "input/todos.csv",
         "--add-todo",
@@ -118,7 +118,105 @@ public class CommandLineParserTest {
   }
 
   @Test
-  public void sortByPriority() throws InvalidArgumentsException {
+  public void missingCSV() {
+    args1 = new String[] {
+        "--csv-file",
+        "--add-todo",
+        "--todo-text", "testing!!!!!",
+        "--completed",
+        "--priority", "1",
+        "--category", "school",
+        "--complete-todo", "1",
+        "--display",
+        "--sort-by-priority"
+    };
+    CommandLineParser.process(args1);
+  }
+
+  @Test
+  public void missingDue() {
+    args1 = new String[] {
+        "--csv-file", "input/todos.csv",
+        "--add-todo",
+        "--todo-text", "testing!!!!!",
+        "--completed",
+        "--priority", "1",
+        "--category", "school",
+        "--complete-todo", "1",
+        "--display",
+        "--due",
+        "--sort-by-priority"
+    };
+    CommandLineParser.process(args1);
+  }
+
+  @Test
+  public void missingPriority() {
+    args1 = new String[] {
+        "--csv-file", "input/todos.csv",
+        "--add-todo",
+        "--todo-text", "testing!!!!!",
+        "--completed",
+        "--priority",
+        "--category", "school",
+        "--complete-todo", "1",
+        "--display",
+        "--sort-by-priority"
+    };
+    CommandLineParser.process(args1);
+  }
+
+  @Test
+  public void missingCategory() {
+    args1 = new String[] {
+        "--csv-file", "input/todos.csv",
+        "--add-todo",
+        "--todo-text", "testing!!!!!",
+        "--completed",
+        "--priority", "1",
+        "--category",
+        "--complete-todo", "1",
+        "--display",
+        "--sort-by-priority"
+    };
+    CommandLineParser.process(args1);
+  }
+
+  @Test
+  public void missingShowCategory() {
+    args1 = new String[] {
+        "--csv-file", "input/todos.csv",
+        "--add-todo",
+        "--todo-text", "testing!!!!!",
+        "--completed",
+        "--priority", "1",
+        "--category", "school",
+        "--complete-todo", "1",
+        "--display",
+        "--show-category",
+        "--sort-by-priority"
+    };
+    CommandLineParser.process(args1);
+  }
+
+  @Test
+  public void missingCompleteTodoId() {
+    args1 = new String[] {
+        "--csv-file", "input/todos.csv",
+        "--add-todo",
+        "--todo-text", "testing!!!!!",
+        "--completed",
+        "--priority", "1",
+        "--category", "school",
+        "--complete-todo",
+        "--display",
+        "--sort-by-priority"
+    };
+    CommandLineParser.process(args1);
+  }
+
+  @Test
+  public void sortByPriority() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -134,7 +232,7 @@ public class CommandLineParserTest {
   }
 
   @Test
-  public void completeOne() throws InvalidArgumentsException {
+  public void completeOne() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -150,7 +248,7 @@ public class CommandLineParserTest {
   }
 
   @Test
-  public void noAdd() throws InvalidArgumentsException {
+  public void noAdd() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv",
         "--completed",
@@ -160,7 +258,7 @@ public class CommandLineParserTest {
   }
 
   @Test
-  public void noComplete() throws InvalidArgumentsException {
+  public void noComplete() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv"
     };
@@ -168,7 +266,7 @@ public class CommandLineParserTest {
   }
 
   @Test
-  public void addMultiSort() throws InvalidArgumentsException {
+  public void addMultiSort() {
     args1 = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -186,7 +284,7 @@ public class CommandLineParserTest {
   }
 
   @Test
-  public void process() throws InvalidArgumentsException {
+  public void process() {
     CommandLineParser.process(args1);
   }
 

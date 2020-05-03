@@ -2,6 +2,7 @@ package todoauto.controller;
 
 import static org.junit.Assert.*;
 
+import com.sun.tools.jdeprscan.CSV;
 import java.io.File;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -47,8 +48,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void completeTODOInvalidIdx()
-      throws InvalidArgumentsException, ParseException {
+  public void completeTODOInvalidIdx() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -66,8 +66,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODOWithoutCate()
-      throws InvalidArgumentsException, ParseException {
+  public void addTODOWithoutCate() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -85,7 +84,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void showIncomplete() throws InvalidArgumentsException, ParseException {
+  public void showIncomplete() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -104,7 +103,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODONoText() throws InvalidArgumentsException, ParseException {
+  public void addTODONoText() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--completed",
@@ -121,8 +120,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODONoDue()
-      throws InvalidArgumentsException, ParseException {
+  public void addTODONoDue() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -140,8 +138,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void showCategoryWithIncomplete()
-      throws InvalidArgumentsException, ParseException {
+  public void showCategoryWithIncomplete() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -162,8 +159,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void showCategory()
-      throws InvalidArgumentsException, ParseException {
+  public void showCategory() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -182,8 +178,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void sortByPriority()
-      throws InvalidArgumentsException, ParseException {
+  public void sortByPriority() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -202,8 +197,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void noWrite()
-      throws InvalidArgumentsException, ParseException {
+  public void noWrite() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--display"
@@ -213,8 +207,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void noSort()
-      throws InvalidArgumentsException, ParseException {
+  public void noSort() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -232,8 +225,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void noDisplay()
-      throws InvalidArgumentsException, ParseException {
+  public void noDisplay() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -251,8 +243,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODOHasDue()
-      throws InvalidArgumentsException, ParseException {
+  public void addTODOHasDue() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -271,8 +262,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODONoPriority()
-      throws InvalidArgumentsException, ParseException {
+  public void addTODONoPriority() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -290,7 +280,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODONoCompleted() throws InvalidArgumentsException, ParseException {
+  public void addTODONoCompleted() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -308,8 +298,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void catchReadException()
-      throws ParseException, InvalidArgumentsException {
+  public void catchReadException() throws ParseException {
     args = new String[] {
         "--csv-file", tempFolderPath + File.separator + "impossible.csv",
         "--add-todo",
@@ -331,8 +320,7 @@ public class CSVProcessorTest {
   public TemporaryFolder tempFolder = new TemporaryFolder();
 
   @Test
-  public void catchWriteException()
-      throws InvalidArgumentsException, ParseException {
+  public void catchWriteException() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -353,7 +341,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void readFileNoQuote() throws InvalidArgumentsException, ParseException {
+  public void readFileNoQuote() {
     args = new String[] {
         "--csv-file", "input/todos_no_quote.csv",
         "--add-todo",
@@ -376,7 +364,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void readFileMissCol() throws InvalidArgumentsException, ParseException {
+  public void readFileMissCol() {
     args = new String[] {
         "--csv-file", "input/todos_miss_col.csv",
         "--add-todo",
@@ -399,7 +387,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODOWithFull() throws InvalidArgumentsException, ParseException {
+  public void addTODOWithFull() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--add-todo",
@@ -418,8 +406,7 @@ public class CSVProcessorTest {
   }
 
   @Test
-  public void addTODOWithNullText()
-      throws InvalidArgumentsException, ParseException {
+  public void addTODOWithNullText() throws ParseException {
     args = new String[] {
         "--csv-file", "input/todos.csv",
         "--complete-todo", "1",
@@ -434,6 +421,23 @@ public class CSVProcessorTest {
   @Test
   public void process() throws ParseException {
     CSVProcessor.process(argMap);
+  }
+
+  @Test
+  public void invalidIdComplete() throws ParseException {
+    CSVProcessor.completeTodo(argMap, Arrays.asList(
+        new Todo(headerList, new String[]{"-1", "text", "completed", "due", "priority", "category"})));
+  }
+
+  @Test
+  public void invalidIdComplete2() throws ParseException {
+    CSVProcessor.completeTodo(argMap, Arrays.asList(
+        new Todo(headerList, new String[]{"1000", "text", "completed", "due", "priority", "category"})));
+  }
+
+  @Test
+  public void emptyResultShow() {
+    CSVProcessor.showTodo(argMap, new ArrayList<>());
   }
 
   @Test

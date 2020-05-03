@@ -44,7 +44,7 @@ public class CSVProcessor {
   /**
    * Constructor of CSVProcessor
    */
-  public CSVProcessor() {
+  protected CSVProcessor() {
   }
 
   /**
@@ -56,15 +56,18 @@ public class CSVProcessor {
     List<Todo> todoList = new ArrayList<>();
     List<String> headerList = new ArrayList<>();
     // program stored data initialize
-    readTodo(argMap, todoList, headerList);
-    // program stored data append
-    addTodo(argMap, todoList, headerList);
-    //  program stored data rewrite
-    completeTodo(argMap, todoList);
-    // file stored data rewrite
-    writeTodo(argMap, todoList, headerList);
-    // program stored data print
-    showTodo(argMap, todoList);
+    if (readTodo(argMap, todoList, headerList)) {
+      // program stored data append
+      addTodo(argMap, todoList, headerList);
+      //  program stored data rewrite
+      if (completeTodo(argMap, todoList)) {
+        // file stored data rewrite
+        if (writeTodo(argMap, todoList, headerList)) {
+          // program stored data print
+          showTodo(argMap, todoList);
+        }
+      }
+    }
   }
 
   /**
@@ -73,7 +76,8 @@ public class CSVProcessor {
    * @param todoList - a list of Todos
    * @param headerList - a list of file header
    */
-  protected static void readTodo(Map<String, String> argMap, List<Todo> todoList, List<String> headerList) {
+  protected static boolean readTodo(Map<String, String> argMap,
+      List<Todo> todoList, List<String> headerList) {
     String filename = argMap.get(CSV_FILE);
     try (BufferedReader inputFile =
         new BufferedReader(new FileReader(filename))) {
@@ -89,10 +93,12 @@ public class CSVProcessor {
         Todo newTodo = new Todo(headerList, infoList);
         todoList.add(newTodo);
       }
+      return true;
     } catch (IOException | ParseException ioe) {
-      System.out.println("Error: Something went wrong in opening/reading: "
+      System.out.println("Usage Error: Something went wrong in opening/reading: "
           + ioe.getMessage());
       ioe.printStackTrace();
+      return false;
     }
   }
 
@@ -103,7 +109,8 @@ public class CSVProcessor {
    * @param headerList - a list of file header
    * @throws ParseException when date format is incorrect
    */
-  private static void addTodo(Map<String, String> argMap, List<Todo> todoList, List<String> headerList)
+  private static void addTodo(Map<String, String> argMap,
+      List<Todo> todoList, List<String> headerList)
       throws ParseException {
     if (argMap.containsKey(ADD_TODO)) {
       String[] infoList = new String[]{
@@ -111,9 +118,9 @@ public class CSVProcessor {
           Integer.toString(todoList.size() + 1),
           argMap.get(TODO_TEXT),
           argMap.containsKey(COMPLETED) ? Boolean.toString(true) : NA,
-          argMap.containsKey(DUE) ? argMap.get(DUE) : NA,
-          argMap.containsKey(PRIORITY) ? argMap.get(PRIORITY) : NA,
-          argMap.containsKey(CATEGORY) ? argMap.get(CATEGORY) : NA
+          argMap.getOrDefault(DUE, NA),
+          argMap.getOrDefault(PRIORITY, NA),
+          argMap.getOrDefault(CATEGORY, NA)
       };
       Todo newTodo = new Todo(headerList, infoList);
       todoList.add(newTodo);
@@ -126,7 +133,7 @@ public class CSVProcessor {
    * @param todoList - a list of Todos
    * @throws ParseException when date format is incorrect
    */
-  private static void completeTodo(Map<String, String> argMap, List<Todo> todoList)
+  protected static boolean completeTodo(Map<String, String> argMap, List<Todo> todoList)
       throws ParseException {
     if (argMap.containsKey(COMPLETE_TODO)) {
       String[] completeList = argMap.get(COMPLETE_TODO).split(",");
@@ -136,9 +143,13 @@ public class CSVProcessor {
         int id = Integer.parseInt(s) - 1;
         if (id >= 0 && id < todoList.size()) {
           todoList.set(id, todoList.get(id).complete());
+        } else {
+          System.out.println("Usage Error: Invalid ID for complete todo.");
+          return false;
         }
       }
     }
+    return true;
   }
 
   /**
@@ -147,7 +158,8 @@ public class CSVProcessor {
    * @param todoList - a list of Todos
    * @param headerList - a list of file header
    */
-  protected static void writeTodo(Map<String, String> argMap, List<Todo> todoList, List<String> headerList) {
+  protected static boolean writeTodo(Map<String, String> argMap,
+      List<Todo> todoList, List<String> headerList) {
     if (argMap.containsKey(ADD_TODO) || argMap.containsKey(COMPLETE_TODO)) {
       try (BufferedWriter outputFile =
           new BufferedWriter(new FileWriter(argMap.get(CSV_FILE)))) {
@@ -158,11 +170,13 @@ public class CSVProcessor {
           outputFile.write(t.toString() + System.lineSeparator());
         }
       } catch (IOException ioe) {
-        System.out.println("Error: Something went wrong in opening/writing: "
+        System.out.println("Usage Error: Something went wrong in opening/writing: "
             + ioe.getMessage());
         ioe.printStackTrace();
+        return false;
       }
     }
+    return true;
   }
 
   /**
@@ -170,12 +184,15 @@ public class CSVProcessor {
    * @param argMap - a flag-value pair
    * @param todoList - a list of Todos
    */
-  private static void showTodo(Map<String, String> argMap, List<Todo> todoList) {
+  protected static void showTodo(Map<String, String> argMap, List<Todo> todoList) {
     if (argMap.containsKey(DISPLAY)) {
       List<Todo> display = new ArrayList<>();
       display = todoList;
       if (argMap.containsKey(SHOW_CATEGORY)) {
         getListOfCategory(display, argMap.get(SHOW_CATEGORY));
+      }
+      if (display.isEmpty()) {
+        System.out.println("Usage Error: Empty result due to non-exist category.");
       }
       if (argMap.containsKey(SHOW_INCOMPLETE)) {
         getIncomplete(display);
