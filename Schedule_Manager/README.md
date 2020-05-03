@@ -1,5 +1,4 @@
-### Assignment 9
-- WEN XIE, LINNI CAI, XINYI LIU
+### Schedule Manger
 
 Improvement from assignment8:
 1.  using MVC architechture
