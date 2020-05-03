@@ -1,6 +1,5 @@
 ### Schedule Manger
 
-Improvement from assignment8:
 1.  using MVC architechture
 2.  make the code more functional, try to make one function does only one thing
 3.  using map to avoid so many fields in one class (Todo)
